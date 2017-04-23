@@ -29,7 +29,12 @@ public class BinarySearchLauncher {
             }
         }
 
-        tree.printInorder(tree.getRoot());
+        try {
+            Node node = tree.search(98);
+            System.out.print(node.getData());
+        } catch (NullPointerException e) {
+            System.out.print("Node not found");
+        }
 
 
     }
