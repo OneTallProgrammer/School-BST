@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -12,30 +13,60 @@ public class BinarySearchLauncher {
         boolean notDone = true;
         Scanner sc = new Scanner(System.in);
 
-        while(notDone) {
-            System.out.println("Insert a node or type e to exit");
-            String input = sc.next();
+        printMenu();
 
-            if(input.equals("e")){
+        while(notDone) {
+            String input = sc.next();
+            String[] parsedInput = input.split("s");
+
+
+            if(parsedInput[0].toLowerCase().equals("i")){
+                for(int i = 0; i < parsedInput.length; i++) {
+                    System.out.println(parsedInput[i] + " " + 1);
+                }
+                //                try {
+//                    int data = Integer.parseInt(parsedInput[1]);
+//                    tree.insert(new Node(data), tree.getRoot());
+//                } catch (NumberFormatException e) {
+//                    e.printStackTrace();
+//                }
+            }
+            else if(parsedInput[0].toLowerCase().equals("d")){
+                System.out.println("D");
+            }
+            else if(parsedInput[0].toLowerCase().equals("p")){
+                System.out.println("P");
+            }
+            else if(parsedInput[0].toLowerCase().equals("s")){
+                System.out.println("S");
+            }
+            else if(parsedInput[0].toLowerCase().equals("e")){
                 notDone = false;
             }
-            else {
-                try {
-                    Node newNode = new Node(Integer.parseInt(input));
-                    tree.insert(newNode, tree.getRoot());
-                } catch (NumberFormatException e) {
-                    System.out.println("Input must be an integer");
-                }
+            else if(parsedInput[0].toLowerCase().equals("h")){
+                printMenu();
             }
+            else {
+                System.out.println("Invalid Input");
+            }
+
+
+
         }
 
-        try {
-            Node node = tree.search(98);
-            System.out.print(node.getData());
-        } catch (NullPointerException e) {
-            System.out.print("Node not found");
-        }
+
+        tree.printInorder();
 
 
+    }
+
+    public static void printMenu() {
+        System.out.println("Command? \n " +
+                        "I Insert a value \n " +
+                        "D Delete a value \n " +
+                        "P Find predecessor \n " +
+                        "S Find successor \n " +
+                        "E Exit the program \n " +
+                        "H Display this message");
     }
 }

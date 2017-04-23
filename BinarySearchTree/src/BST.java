@@ -30,10 +30,13 @@ public class BST {
 
 
     public void insert(Node newNode, Node parent) {
-
+        if(search(newNode.getData()) != null ) {
+            System.out.println(newNode.getData() + " already exists, ignore.");
+        }
         if(newNode.getData() <= parent.getData()){
             if(parent.getLeft() == null){
-                parent.setLeft(newNode);
+                parent.setLeft(newNode); // inserts new node
+                parent.getLeft().setParent(parent); // backreferences the parent node
                 System.out.println("newNode set as left child under " + parent.getData());
             }
             else{
@@ -42,7 +45,8 @@ public class BST {
         }
         else{
             if(parent.getRight() == null){
-                parent.setRight(newNode);
+                parent.setRight(newNode); // inserts new node to the right
+                parent.getRight().setParent(parent); // back references the parent node
                 System.out.println("newNode set as right child under " + parent.getData());
             }
             else{
@@ -53,7 +57,61 @@ public class BST {
     }
 
     void delete(int data) {
+        Node toBeDeleted = search(data);
 
+        if(toBeDeleted == null){
+            System.out.println(data + " not found");
+            printInorder();
+        }
+        else {
+            // leaf node removal
+            if (toBeDeleted.getLeft() == null && toBeDeleted.getRight() == null) {
+                if (toBeDeleted.getData() <= toBeDeleted.getParent().getData()) {
+                    toBeDeleted.getParent().setLeft(null);
+                }
+                if (toBeDeleted.getData() > toBeDeleted.getParent().getData()) {
+                    toBeDeleted.getParent().setRight(null);
+                }
+            // single child node removal
+            } else if (toBeDeleted.getLeft() != null ^ toBeDeleted.getRight() != null) {
+                // left child
+                if (toBeDeleted.getData() < toBeDeleted.getParent().getData()) {
+                    if (toBeDeleted.getLeft() != null) {
+                        toBeDeleted.getParent().setLeft(toBeDeleted.getLeft());
+                    } else {
+                        toBeDeleted.getParent().setLeft(toBeDeleted.getRight());
+                    }
+                }
+                //right child
+                if (toBeDeleted.getData() > toBeDeleted.getParent().getData()) {
+                    if (toBeDeleted.getLeft() != null) {
+                        toBeDeleted.getParent().setRight(toBeDeleted.getLeft());
+                    } else {
+                        toBeDeleted.getParent().setRight(toBeDeleted.getRight());
+                    }
+                }
+            }
+            // two child node removal
+            else {
+                Node maxLeftTreeNode = toBeDeleted.getLeft();
+
+                while (maxLeftTreeNode.getRight() != null) {
+                    maxLeftTreeNode = maxLeftTreeNode.getRight();
+                }
+
+                //left child
+                if (toBeDeleted.getData() < toBeDeleted.getParent().getData()) {
+                    maxLeftTreeNode.setRight(toBeDeleted.getRight());
+                    toBeDeleted.getParent().setLeft(maxLeftTreeNode);
+
+                }
+                //right child
+                if (toBeDeleted.getData() > toBeDeleted.getParent().getData()) {
+                    maxLeftTreeNode.setRight(toBeDeleted.getRight());
+                    toBeDeleted.getParent().setRight(maxLeftTreeNode);
+                }
+            }
+        }
     }
 
     void printInorder() {
@@ -116,10 +174,20 @@ public class BST {
             return null;
         }
         else if(value < currentNode.getData()){
-            return searchRecursively(value, currentNode.getLeft());
+            if(currentNode.getLeft() != null){
+                return searchRecursively(value, currentNode.getLeft());
+            }
+            else {
+                return null;
+            }
         }
         else if(value > currentNode.getData()) {
-            return searchRecursively(value,currentNode.getRight());
+            if(currentNode.getRight() != null) {
+                return searchRecursively(value,currentNode.getRight());
+            }
+            else {
+                return null;
+            }
         }
 
         return null;
