@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="BinarySearchTree:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BinarySearchTree_jar</output-path>
+    <root id="archive" name="BinarySearchTree.jar">
+      <element id="module-output" name="BinarySearchTree" />
+    </root>
+  </artifact>
+</component>

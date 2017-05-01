@@ -13,7 +13,7 @@ public class Node {
         this.data = data;
     }
 
-    public Node(Node left, Node right, Node parent, int data) {
+    public Node(Node left, Node right, int data) {
         this.left = left;
         this.right = right;
         this.data = data;
@@ -51,7 +51,15 @@ public class Node {
         this.data = data;
     }
 
+    /*
+    determines if a node has children
+    @return: true if right and left child are null, false otherwise
+     */
+    public boolean isLeaf(){
+        if(getRight() == null & getLeft() == null){
+            return true;
+        }
 
-
-
+        return false;
+    }
 }
